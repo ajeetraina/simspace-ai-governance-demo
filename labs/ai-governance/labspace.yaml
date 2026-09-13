@@ -1,0 +1,119 @@
+title: "Securing the Agentic Stack with Docker AI Governance"
+description: >
+  An AI agent (Gordon) containerises a real Node.js app - then you secure the
+  whole agentic stack. Harden what it builds (Docker Scout → Docker Hardened
+  Images → a signed, policy-gated CI pipeline) and contain what it can touch
+  (sandbox network, filesystem, credential, and MCP governance). Fully simulated;
+  nothing to install; every learner sees the same allow/deny decisions.
+
+# Optional catalog card. Only shown on the landing page when this repo has two or
+# more labs. labs.json is GENERATED from this block - never edit labs.json by hand.
+catalog:
+  icon: shield_lock
+  tags:
+    ["ai governance", "supply chain", "dhi", "docker scout", "sandbox", "mcp"]
+  estimatedMinutes: 75
+
+# Command behaviour lives in simulator.yaml (relative to this file).
+simulator: simulator.yaml
+
+# Turn on the mock CI tab (used by the "Sign It, Then Gate It" section). Runs are
+# defined by `workflows:` in simulator.yaml and fired by `then.ci` on git push.
+features:
+  ci:
+    title: CI
+    icon: rocket_launch
+
+# One terminal - the developer's host shell, with `sbx` ready to use.
+terminals:
+  - id: host
+    title: Terminal
+    icon: terminal
+
+# Seed the virtual filesystem. Built-in `ls`/`cat` reflect these immediately;
+# scenarios and save-as blocks add more on top.
+files:
+  README.md: |
+    # Docker AI Governance - lab workspace
+
+    This is your host home directory in the simulated lab. Everything the
+    terminal does here is scripted - no real Docker, sbx daemon, or network -
+    so every learner sees the same allow/deny decisions.
+
+    Files you'll meet:
+      workdemo/                                 the one directory sandboxes are allowed to mount
+      product-catalog-demo-showcase/            a real Node.js app the agent containerises (Product Catalog section)
+  product-catalog-demo-showcase/package.json: |
+    {
+      "name": "container-supported-development",
+      "version": "1.0.0",
+      "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon --inspect src/index.js --ignore dev",
+        "test": "env-cmd --file .env.node -- jest --detectOpenHandles"
+      },
+      "dependencies": {
+        "@aws-sdk/client-s3": "^3.1030.0",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "kafkajs": "^2.2.4",
+        "multer": "^2.1.1",
+        "node-fetch": "^2",
+        "pg": "^8.20.0"
+      },
+      "packageManager": "yarn@1.22.21"
+    }
+  product-catalog-demo-showcase/src/index.js: |
+    require("dotenv").config();
+    const os = require("os");
+    const express = require("express");
+    const ProductService = require("./services/ProductService");
+    const multer = require("multer");
+
+    const app = express();
+    app.use(express.json());
+    const upload = multer({ dest: os.tmpdir() });
+
+    app.get("/", (req, res) => res.send("Hello World!!!"));
+
+    app.get("/api/products", async (req, res) => {
+      res.json(await ProductService.getProducts());
+    });
+
+    app.listen(3000, () => console.log("Listening on port 3000"));
+
+# Ordered instruction pages (markdown), rendered in the left-hand panel.
+# The arc: an agent builds it → you harden what it ships → you contain what it
+# can touch. Supply-chain half first (Gordon → Scout → DHI → CI), runtime
+# governance half second (policy → network → filesystem → credential → MCP),
+# tied together by the capstone and audit.
+sections:
+  - title: Why Secure the Agentic Stack
+    contentPath: 00-introduction.md
+  - title: "Gordon Containerises the Product Catalog"
+    contentPath: 01-gordon-containerise.md
+  - title: "Docker Scout: What's Inside"
+    contentPath: 02-docker-scout.md
+  - title: Docker Hardened Images (DHI)
+    contentPath: 03-hardened-images.md
+  - title: "Sign It, Then Gate It (CI)"
+    contentPath: 04-ci-pipeline.md
+  - title: "Contain the Agent: The Policy Model"
+    contentPath: 05-policy-model.md
+  - title: Network Enforcement
+    contentPath: 06-network-demo.md
+  - title: Filesystem Isolation
+    contentPath: 07-filesystem-isolation.md
+  - title: Credential Isolation
+    contentPath: 08-credential-isolation.md
+  - title: MCP Governance
+    contentPath: 09-mcp.md
+  - title: Putting It All Together
+    contentPath: 10-capstone.md
+  - title: Observability & Audit
+    contentPath: 11-observability.md
+
+# $$name$$ in markdown is replaced with these values. `org` is overridden by the
+# :variableDefinition prompt in "Why AI Governance".
+variables:
+  org: your-org
