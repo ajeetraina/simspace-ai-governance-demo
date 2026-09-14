@@ -17,13 +17,6 @@ catalog:
 # Command behaviour lives in simulator.yaml (relative to this file).
 simulator: simulator.yaml
 
-# Turn on the mock CI tab (used by the "Sign It, Then Gate It" section). Runs are
-# defined by `workflows:` in simulator.yaml and fired by `then.ci` on git push.
-features:
-  ci:
-    title: CI
-    icon: rocket_launch
-
 # One terminal - the developer's host shell, with `sbx` ready to use.
 terminals:
   - id: host
