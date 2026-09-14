@@ -41,7 +41,7 @@ sbx version
 ```
 
 ```bash
-sbx login
+sbx login --org $$org$$
 ```
 
 Now the model behind what you'll enforce in the next sections.
