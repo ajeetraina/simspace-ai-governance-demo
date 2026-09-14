@@ -15,11 +15,14 @@ injects it per request.*
 > The real secret stays on the host; the proxy adds it to each request on the way
 > out. Even a hijacked agent has nothing to steal.
 
-The filesystem demo blocked the agent from **reading** secrets off disk. But agents
-legitimately need credentials - `claude` has to call `api.anthropic.com`. So:
+Back to the **Product Catalog**. To containerise and run it, the coding agent needs
+**real credentials**: its own **Anthropic key** to think, plus the app's own secrets -
+the **AWS keys** for the product-image S3 bucket and the token for the **Inventory
+service** the catalog calls. The filesystem section already stopped the agent from
+*reading* secrets off disk. But these it legitimately needs to *use*. So:
 
-> *If the agent can't read my keys, how does it authenticate to services it's
-> allowed to use?*
+> *If the agent can't read my keys, how does it authenticate to the services the
+> catalog actually depends on?*
 
 The answer is **credential isolation**: the real secret never enters the sandbox.
 A host-side proxy injects it per request; the sandbox sees only a sentinel.
@@ -30,24 +33,45 @@ A host-side proxy injects it per request; the sandbox sees only a sentinel.
 > sandbox runtime protection you configure **developer-side** with `sbx secret`,
 > the OS keychain, or OAuth. There's no Admin Console toggle for it.
 
-## Step 1 - See the sentinel inside a sandbox
+## Step 1 - Store the key on the host, before you run the agent
+
+Set this up **first** - the proxy can only inject a secret that already lives on the
+host. Store the catalog agent's Anthropic key in the OS keychain (encrypted at rest,
+and keychain secrets take precedence over any env var):
+
+```bash
+sbx secret set -g anthropic
+```
+
+```bash
+sbx secret ls
+```
+
+The key now lives on the **host** - not in your shell history, and not in any
+sandbox. With it in place, the proxy has something to inject; let's launch the
+catalog agent and confirm it never sees it.
+
+## Step 2 - Launch the catalog sandbox and look for the key
+
+Open a sandbox on the catalog workspace - the same box the agent uses to build and
+run the Product Catalog:
 
 ```bash
 sbx run shell ~/workdemo/creds
 ```
 
-Look at the credential the `claude` agent would use:
+Look at the credential the coding agent would use:
 
 ```bash
 echo "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY"
 ```
 
-The variable exists - tools expect it - but its value is `proxy-managed`, not a
-real key. There is no live secret anywhere in the sandbox.
+The variable exists - tools expect it - but its value is `proxy-managed`, not the
+key you just stored. There is no live secret anywhere in the sandbox.
 
-## Step 2 - Watch the proxy inject the real credential
+## Step 3 - Watch the proxy inject the real credential
 
-Still inside, make a request to an allowed AI service:
+Still inside, make the call the coding agent makes to think:
 
 ```bash
 curl https://api.anthropic.com -sS -o /dev/null -w "anthropic: %{http_code}\n"
@@ -64,41 +88,31 @@ sbx policy log
 ```
 
 The request to `api.anthropic.com` is logged as `forward` (allowed). The proxy
-matched the destination to the `anthropic` service, read your real key from the
-host, and injected the `Authorization` header - all without the key ever touching
+matched the destination to the `anthropic` service, read the real key you stored in
+Step 1, and injected the `Authorization` header - all without the key ever touching
 the sandbox.
 
-## Step 3 - Store the secret in the keychain (preferred)
+## Step 4 - The catalog's own secrets (custom)
 
-An env var works but sits in your shell history in plaintext. The hardened path
-stores it in the OS keychain instead - keychain secrets take precedence:
-
-```bash
-sbx secret set -g anthropic
-```
+The Product Catalog also calls an internal **Inventory service**. Declare a **custom
+secret** keyed to its host and env var, so the app can reach it without the agent
+ever holding the token:
 
 ```bash
-sbx secret ls
+sbx secret set-custom -g --host api.inventory.internal --env INVENTORY_API_KEY
 ```
 
-## Step 4 - Custom secrets for your own APIs
-
-For an internal API, declare a **custom secret** keyed to a host and env var:
-
-```bash
-sbx secret set-custom -g --host api.internal.example.com --env INTERNAL_API_KEY
-```
-
-Inside the sandbox, `INTERNAL_API_KEY` shows a placeholder; the proxy substitutes
-the real value on requests to the matching host.
+Inside the sandbox, `INVENTORY_API_KEY` shows a placeholder; the proxy substitutes
+the real value on requests to `api.inventory.internal`. The same pattern covers the
+AWS keys for the product-image S3 bucket - stored on the host, injected on the wire.
 
 ## Read the results
 
 | What | Where the secret lives | What the sandbox sees |
 | --- | --- | --- |
-| `ANTHROPIC_API_KEY` | Host keychain / env | `proxy-managed` sentinel |
+| `ANTHROPIC_API_KEY` (agent) | Host keychain (Step 1) | `proxy-managed` sentinel |
 | Allowed API call | Injected by proxy on the wire | Never the raw value |
-| Custom secret | Host, keyed to host + env | Placeholder; substituted per request |
+| Inventory / S3 secret | Host, keyed to host + env | Placeholder; substituted per request |
 | SSH key | Host SSH agent | Can sign, can't read the key |
 
 ## The three sandbox protections together
@@ -107,9 +121,9 @@ the real value on requests to the matching host.
 - **Filesystem access** - the agent can't mount unapproved paths
 - **Credential isolation** - the agent can't see the secrets it uses
 
-Even for the calls the agent is *supposed* to make, a prompt injection can't
+Even for the calls the catalog agent is *supposed* to make, a prompt injection can't
 exfiltrate a usable key - because there is no usable key inside the box.
 
 That's three of the agent's four boundaries contained - network, filesystem, and
-credentials. One remains: the **tools** the agent can call. Next: **MCP
-Governance** - putting every tool server behind one governed gateway.
+credentials. One remains: the **tools** the agent can call. Next: **DHI MCP** and
+**MCP Governance** - putting every tool server behind one governed gateway.
