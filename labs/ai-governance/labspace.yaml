@@ -76,12 +76,15 @@ files:
     app.listen(3000, () => console.log("Listening on port 3000"));
 
 # Ordered instruction pages (markdown), rendered in the left-hand panel.
-# This lab focuses on the runtime-governance half: contain what the agent can
-# touch (policy → network → filesystem → credential → MCP), tied together by the
-# capstone and audit. The supply-chain half (an agent builds it → you harden what
-# it ships) is covered by the "An Agent Built This" and "Find the Vulnerabilities"
-# labs, so pages 00-04 are intentionally skipped here.
+# Arc: a short DHI recap on the shared Product Catalog example (harden what the
+# agent BUILDS) → then contain what it can TOUCH (policy → network → filesystem →
+# credential), then the tools it CALLS (DHI MCP → MCP governance), tied together by
+# the capstone and audit. The full supply-chain half (build/scan/CI) lives in the
+# "An Agent Built This" and "Find the Vulnerabilities" labs; pages 01-04 of the
+# original arc are intentionally skipped here.
 sections:
+  - title: "Start Here: Product Catalog & Hardened Images"
+    contentPath: recap-dhi.md
   - title: "Contain the Agent: The Policy Model"
     contentPath: 05-policy-model.md
   - title: Network Enforcement
@@ -90,6 +93,8 @@ sections:
     contentPath: 07-filesystem-isolation.md
   - title: Credential Isolation
     contentPath: 08-credential-isolation.md
+  - title: "DHI MCP: Hardened Servers"
+    contentPath: dhi-mcp.md
   - title: MCP Governance
     contentPath: 09-mcp.md
   - title: Putting It All Together

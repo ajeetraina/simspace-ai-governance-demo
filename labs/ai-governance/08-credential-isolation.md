@@ -11,6 +11,10 @@
 `proxy-managed` sentinel, while the proxy reads the real secret from the host and
 injects it per request.*
 
+> **In plain terms:** the agent **uses** your API key without ever **seeing** it.
+> The real secret stays on the host; the proxy adds it to each request on the way
+> out. Even a hijacked agent has nothing to steal.
+
 The filesystem demo blocked the agent from **reading** secrets off disk. But agents
 legitimately need credentials - `claude` has to call `api.anthropic.com`. So:
 

@@ -11,6 +11,10 @@
 rule blocks paste.ee (403), default-deny blocks anything unlisted (403) - all
 decided at the sbx proxy.*
 
+> **In plain terms:** the sandbox can't reach the internet directly. Every request
+> goes through a **checkpoint** (the proxy). Sites on the allow-list get through;
+> **everything else is blocked** - so a rogue agent has nowhere to send your data.
+
 ## Step 1 - Define the network policy
 
 Two equivalent paths write the **identical** three rules to `$$org$$`:
