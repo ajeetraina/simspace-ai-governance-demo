@@ -15,10 +15,26 @@
 *Authored once (UI or API), synced to the daemon at login, cached, and applied to
 every sandbox. Each request is evaluated **deny → allow → default-deny**.*
 
-The opener let an agent run with your full blast radius. To contain it, you run the
-agent inside **`sbx` (Docker Sandboxes)** - an isolated microVM - and let **org
-policy** decide what that sandbox may touch. First, meet the tool and log in so
-policy syncs:
+> [!NOTE]
+> This lab picks up where **"An Agent Built This"** and **"Find the
+> Vulnerabilities"** leave off. Those labs cover the supply-chain half - an agent
+> containerises a real app, then you harden what it ships (Docker Scout → Hardened
+> Images → a signed, policy-gated CI pipeline). Here we secure the **other** half:
+> containing what the agent can *touch* - your network, filesystem, credentials,
+> and MCP tools. Everything below is **simulated** (no real Docker, `sbx` daemon,
+> or network), so every learner sees the same allow/deny decisions.
+
+## Set your organization
+
+Most commands and links below substitute `$$org$$` for your Docker Hub org. Set it
+once here:
+
+:variableDefinition[org]{prompt="Which Docker Hub organization will you use?"}
+
+By default an AI agent runs with your **full blast radius** - your filesystem, your
+secrets, your network. To contain it, you run the agent inside **`sbx` (Docker
+Sandboxes)** - an isolated microVM - and let **org policy** decide what that sandbox
+may touch. First, meet the tool and log in so policy syncs:
 
 ```bash
 sbx version
