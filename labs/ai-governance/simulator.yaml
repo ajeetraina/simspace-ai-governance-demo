@@ -12,10 +12,12 @@ metadata:
 # also wired to Settings-dialog toggles (see `controls:` below) so a learner can
 # flip a policy off and watch enforcement disappear.
 state:
-  # Learner's Docker Hub org. The markdown `{{ state.org }}` variable is a separate,
-  # markdown-only mechanism the engine does NOT see, so terminal output uses this
-  # state value instead (templated as {{ state.org }}). Defaults to match the
-  # `variables.org` default in labspace.yaml.
+  # Learner's Docker Hub org. The markdown `$$org$$` variable (set by the prompt) is
+  # a separate, markdown-only mechanism the engine does NOT see, so terminal output
+  # uses this state value instead (templated as {{ state.org }}). This default is
+  # overwritten when `sbx login --org $$org$$` runs (see the sbx-login-org scenario),
+  # bridging the learner's chosen org into every later output. Matches the
+  # `variables.org` default in labspace.yaml until then.
   org: "your-org"
   governance:
     active: true # org AI Governance policy is in effect and synced to this machine
@@ -82,6 +84,21 @@ scenarios:
       command: [sbx, version]
     then:
       output: ["sbx version: v0.38.0-rc1-57-gde89a8dd6 de89a8dd67fc899f48b3d547b4790021918de7e2"]
+
+  # The markdown Run button sends `sbx login --org <your org>` (from the $$org$$
+  # variable set by the prompt). Capturing it here is the ONLY bridge that gets the
+  # learner's org into simulator state, so every later `{{ state.org }}` in output
+  # (policy ls, sync headers, the API) reflects it. Must precede the plain fallback.
+  - id: sbx-login-org
+    when:
+      command: [sbx, login]
+      args: { --org: { any: true } }
+    then:
+      state: { governance.active: true, org: "{{ args.org }}" }
+      output:
+        - "Opening your browser to authenticate with Docker..."
+        - { text: "Login Succeeded", delay: sync }
+        - "Synced AI Governance policy for {{ args.org }} (cached locally)."
 
   - id: sbx-login
     when:
