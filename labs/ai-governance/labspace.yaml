@@ -17,13 +17,6 @@ catalog:
 # Command behaviour lives in simulator.yaml (relative to this file).
 simulator: simulator.yaml
 
-# Turn on the mock CI tab (used by the "Sign It, Then Gate It" section). Runs are
-# defined by `workflows:` in simulator.yaml and fired by `then.ci` on git push.
-features:
-  ci:
-    title: CI
-    icon: rocket_launch
-
 # One terminal - the developer's host shell, with `sbx` ready to use.
 terminals:
   - id: host
@@ -83,21 +76,12 @@ files:
     app.listen(3000, () => console.log("Listening on port 3000"));
 
 # Ordered instruction pages (markdown), rendered in the left-hand panel.
-# The arc: an agent builds it → you harden what it ships → you contain what it
-# can touch. Supply-chain half first (Gordon → Scout → DHI → CI), runtime
-# governance half second (policy → network → filesystem → credential → MCP),
-# tied together by the capstone and audit.
+# This lab focuses on the runtime-governance half: contain what the agent can
+# touch (policy → network → filesystem → credential → MCP), tied together by the
+# capstone and audit. The supply-chain half (an agent builds it → you harden what
+# it ships) is covered by the "An Agent Built This" and "Find the Vulnerabilities"
+# labs, so pages 00-04 are intentionally skipped here.
 sections:
-  - title: Why Secure the Agentic Stack
-    contentPath: 00-introduction.md
-  - title: "Gordon Containerises the Product Catalog"
-    contentPath: 01-gordon-containerise.md
-  - title: "Docker Scout: What's Inside"
-    contentPath: 02-docker-scout.md
-  - title: Docker Hardened Images (DHI)
-    contentPath: 03-hardened-images.md
-  - title: "Sign It, Then Gate It (CI)"
-    contentPath: 04-ci-pipeline.md
   - title: "Contain the Agent: The Policy Model"
     contentPath: 05-policy-model.md
   - title: Network Enforcement
@@ -114,6 +98,6 @@ sections:
     contentPath: 11-observability.md
 
 # $$name$$ in markdown is replaced with these values. `org` is overridden by the
-# :variableDefinition prompt in "Why AI Governance".
+# :variableDefinition prompt in "Contain the Agent: The Policy Model".
 variables:
   org: your-org

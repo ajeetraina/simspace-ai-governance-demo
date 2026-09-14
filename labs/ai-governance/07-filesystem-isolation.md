@@ -12,8 +12,8 @@
 disk. Put it in a sandbox and those files simply aren't there; add an org
 filesystem policy and a denied mount fails before the sandbox even starts.*
 
-The opener flagged the agent's blast radius. Let's make the **filesystem** half of
-it visceral, then close it.
+The policy model established the agent's blast radius. Let's make the
+**filesystem** half of it visceral, then close it.
 
 ## Step 1 - Prove the agent can read your secrets
 

@@ -36,8 +36,6 @@ state:
     hardened: false # agent switched to a Docker Hardened Image base
   signing:
     configured: false # cosign key pair generated (CI signing step)
-  ci:
-    runs: [] # CI run records appended by `then.ci` (reserved by convention)
 
 settings:
   pace:
@@ -74,53 +72,6 @@ controls:
     state: policy.denyCreds
     enabled: true
     disabled: false
-
-# CI pipeline (rendered in the CI tab, enabled via `features.ci` in labspace.yaml).
-# `git push` fires the `secure-build` run; the policy-gate step is state-derived
-# (`requires: catalog.hardened`), so an un-hardened image fails the gate and the
-# CI panel's Re-run button goes green once the base is switched to a DHI.
-workflows:
-  - id: secure-build
-    name: "secure-build"
-    on: push
-    steps:
-      - id: build
-        name: "Build image"
-        logs:
-          - "$ docker build -t product-catalog:latest ."
-          - "=> exporting to image ... done"
-      - id: sbom
-        name: "Generate SBOM + provenance"
-        logs:
-          - "$ docker build --sbom=true --provenance=mode=max ..."
-          - "=> exporting sbom attestation"
-          - "=> exporting provenance attestation mode=max"
-      - id: policy-gate
-        name: "Policy gate - Docker Scout (no critical/high CVEs)"
-        requires: catalog.hardened
-        logs:
-          - "$ docker scout policy product-catalog:latest --org $ORG"
-          - "  no-critical-cves     PASSED   0 critical, 0 high"
-          - "  require-sbom         PASSED   sbom attestation present"
-          - "  require-provenance   PASSED   slsa-provenance present"
-          - "Policy status: PASSED (3 of 3 met)"
-        failure:
-          error: "Policy gate failed - the image still has critical/high CVEs. Harden the base (DHI) and re-run."
-          logs:
-            - "$ docker scout policy product-catalog:latest --org $ORG"
-            - "  no-critical-cves     FAILED   2 critical, 12 high"
-            - "  require-sbom         FAILED   no SBOM attestation present"
-            - "Policy status: FAILED - image NOT promoted (fail closed)."
-      - id: sign
-        name: "Sign image (cosign, keyless)"
-        logs:
-          - "$ cosign sign --yes product-catalog@sha256:6f2a9c3b1d40"
-          - "tlog entry created - signature pushed to the registry"
-      - id: push
-        name: "Push to registry"
-        logs:
-          - "$ docker push product-catalog:latest"
-          - "signed, attested image promoted to the registry"
 
 scenarios:
   # ===========================================================================
@@ -1226,10 +1177,7 @@ scenarios:
         - { text: "To github.com:{{ state.org }}/product-catalog.git", delay: sync }
         - "   7f3a2c1..a9d0e42  main -> main"
         - ""
-        - "secure-build triggered - open the CI tab (top right) to watch the run."
-      ci:
-        workflow: secure-build
-        commit: "Add secure-build pipeline"
+        - "secure-build triggered - the signed, policy-gated pipeline runs in CI."
 
   - id: git-diff-containerised
     when:
