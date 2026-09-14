@@ -12,6 +12,10 @@
 disk. Put it in a sandbox and those files simply aren't there; add an org
 filesystem policy and a denied mount fails before the sandbox even starts.*
 
+> **In plain terms:** the agent only sees the **one folder you hand it**. Your
+> secrets - `~/.ssh`, `~/.aws`, `~/.docker` - simply aren't mounted, so the agent
+> **can't read or leak what it can't see**.
+
 The policy model established the agent's blast radius. Let's make the
 **filesystem** half of it visceral, then close it.
 

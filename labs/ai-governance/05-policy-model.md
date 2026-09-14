@@ -15,14 +15,14 @@
 *Authored once (UI or API), synced to the daemon at login, cached, and applied to
 every sandbox. Each request is evaluated **deny → allow → default-deny**.*
 
+> **In plain terms:** your org writes the rules **once**. Every developer's sandbox
+> downloads them at login and enforces them automatically. Developers **can't turn
+> them off** - that's the whole point.
+
 > [!NOTE]
-> This lab picks up where **"An Agent Built This"** and **"Find the
-> Vulnerabilities"** leave off. Those labs cover the supply-chain half - an agent
-> containerises a real app, then you harden what it ships (Docker Scout → Hardened
-> Images → a signed, policy-gated CI pipeline). Here we secure the **other** half:
-> containing what the agent can *touch* - your network, filesystem, credentials,
-> and MCP tools. Everything below is **simulated** (no real Docker, `sbx` daemon,
-> or network), so every learner sees the same allow/deny decisions.
+> The opener hardened what the agent *builds*. From here on we contain what it can
+> *touch* - network, filesystem, credentials, and MCP tools - and the policy model
+> below is the foundation for all of it.
 
 ## Set your organization
 
