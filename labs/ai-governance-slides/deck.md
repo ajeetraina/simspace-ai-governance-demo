@@ -16,9 +16,9 @@ Note: A quick word about who's guiding you today. I'm **Ajeet Singh Raina**, a D
 
 <!-- chrome: false -->
 
-<img src="assets/slide-03.webp" alt="Workshop agenda — six sections: Autonomy requires guardrails, Enforced not advised, A layered approach, Sandboxing the agent, Protecting MCP, Audit scale and wrap-up" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+<img src="assets/slide-03.webp" alt="Workshop - labs: four hands-on labs. Lab 1 Prerequisite & Setup (2 min) - Accessing the Workshop. Lab 2 Autonomy requires guardrails (15-20 min) - traditional vs agentic workflow, agents expand your attack surface, speed vs security, containerising the Product Catalog. Lab 3 AI Governance Stack (45 min) - layered approach, Docker Hardened Images, Gordon, intro to Docker Sandboxes. Lab 4 Securing the Agentic Stack (30 min) - sandboxing the AI coding agent, credential isolation, network and filesystem policy, MCP protection, audit logs and visibility." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
 
-Note: Here's our roadmap for today, six sections in a deliberate arc. We open with **Autonomy requires guardrails** to establish why agents need governance at all, then **Enforced, not advised** to draw the line between soft policy and hard mechanisms, and **A layered approach** to lay out the Docker governance stack. Then we roll up our sleeves: forty minutes on **Sandboxing the agent** — isolation, secrets, network, filesystem, and models — followed by **Protecting MCP** where we govern the tools agents call, and finally **Audit, scale & wrap-up** to give your security team the proof they'll ask for. Notice the two biggest blocks are hands-on; that's intentional, because governance you can't demonstrate isn't governance. Before we dive in, here are the four takeaways I want you leaving with.
+Note: Here's how the day is actually structured — **four hands-on labs**, and I'll bring this same slide back with a checkmark each time we finish one. **Lab 1 - Prerequisite & Setup**, about two minutes, is just getting into the workshop environment. **Lab 2 - Autonomy requires guardrails**, fifteen to twenty minutes, covers the traditional-versus-agentic workflow, how agents expand your attack surface, the speed-versus-security tension, and containerising our Product Catalog app. **Lab 3 - the AI Governance Stack**, the big forty-five-minute block, walks the layered approach: Docker Hardened Images, Gordon, and an introduction to Docker Sandboxes. And **Lab 4 - Securing the Agentic Stack**, thirty minutes, is the hands-on payoff: sandboxing the coding agent, credential isolation, network and filesystem policy, MCP protection, and audit logs. Keep this map in mind as we go. Before we dive in, here are the four takeaways I want you leaving with.
 
 ---
 
@@ -40,9 +40,17 @@ Note: Now let's get you set up with your own hands-on environment. We call the i
 
 <!-- chrome: false -->
 
-<img src="assets/slide-06.webp" alt="Access the Simspace — link to github.com/ajeetraina/simspace-ai-governance-demo" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+<img src="assets/slide-06.webp" alt="Access the Simspace — link to https://governance.dockerworkshop.com" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
 
-Note: Here's your entry point — **github.com/ajeetraina/simspace-ai-governance-demo**. Go ahead and open that now; everything we do today lives in this repo, including the labs, the policies, and the running Product Catalog example we'll thread through the whole session. Take a moment to make sure the page loads for you before we move on, and flag me if anyone's stuck. Once you're in, we can start with the real question behind this entire workshop: why autonomy demands guardrails.
+Note: Here's your entry point — **governance.dockerworkshop.com**. Go ahead and open that now; everything we do today lives there, including all four labs, the policies, and the running Product Catalog example we'll thread through the whole session. Take a moment to make sure the page loads for you before we move on, and flag me if anyone's stuck. Opening this environment is Lab 1 — so once you're in, you've already finished the first lab.
+
+---
+
+<!-- chrome: false -->
+
+<img src="assets/slide-06b.webp" alt="Workshop - labs progress: Lab 1 Prerequisite & Setup is marked complete with a green check; Labs 2, 3, and 4 still ahead." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+
+Note: And there's our first checkmark — **Lab 1, Prerequisite & Setup, is done**. You're in the environment, so the plumbing is behind us and we can focus on the ideas. I'll keep coming back to this board so you always know where we are on the map. Next up is **Lab 2 - Autonomy requires guardrails**, which is where we confront the real question behind this entire workshop: why autonomy demands guardrails.
 
 ---
 
@@ -176,6 +184,14 @@ Note: So let me introduce the **AI Governance Stack**, Docker's answer to that "
 
 <!-- chrome: false -->
 
+<img src="assets/slide-22b.webp" alt="Workshop - labs progress: Lab 1 Prerequisite & Setup and Lab 2 Autonomy requires guardrails are both marked complete with green checks; Labs 3 and 4 still ahead." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+
+Note: Second checkmark on the board — **Lab 2 is done**. We've felt the problem: the traditional-versus-agentic workflow, how agents blow up your attack surface, the speed-versus-security tension, and we watched an agent containerise our Product Catalog with no guardrails. So the "why" is settled. From here we shift into **Lab 3 - the AI Governance Stack**, where we stop describing the problem and start building the layered controls that fix it. Let me introduce that stack.
+
+---
+
+<!-- chrome: false -->
+
 <img src="assets/slide-23.webp" alt="'AI Governance: One console to govern AI Agents and Claws across your entire organisation.' Bulleted benefits: one engine with three layers of control (sandbox, network, MCP), complete audit trails, centralized credential management across MCP servers, automated policy enforcement, governance for every stakeholder, and runtime PII redaction." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
 
 Note: This is the promise stated plainly: **one console to govern AI agents across your entire organisation**. One engine gives you **three layers of control**, sandbox, network, and MCP, so you're governing isolation, egress, and tool access from the same place. Around that you get the things a security team actually asks for: **complete audit trails, centralized credential management across every MCP server, automated policy enforcement, and runtime PII redaction** before data ever reaches an agent or a log. And crucially, **policy propagates automatically** from security leaders down to every developer, so nobody has to remember to be safe. Now let me break that single engine into its layers so you can see how it's built.
@@ -267,6 +283,14 @@ Note: Here's **the whole ecosystem on one slide** — all six layers working tog
 <img src="assets/slide-34.webp" alt="Keeping your system safe with multiple layers of security — four cards: Kernel level isolation (microVMs give separate kernel space for untrusted AI agent workloads), Rootless by default (microVMs run without privileged access, host compromise prevented even with container escape), Network (allowlist-based egress filtering at the VM boundary, block-by-default, secrets not exposed to agent), and MCP Servers (private catalog, servers run isolated, secrets engine protects secrets from server)." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
 
 Note: This slide is the one to show your **security team**, because it names the concrete mechanisms — four of them. **Kernel-level isolation** means each agent gets its own **microVM with separate kernel space**, so an untrusted agent workload isn't sharing a kernel with your host. **Rootless by default** is the crucial follow-on: the microVMs run without privileged access, so even a full **container escape doesn't hand over the host**. On the **network** side, egress is **allowlist-based and block-by-default at the VM boundary**, and **secrets are never exposed to the agent** directly. And for **MCP servers**, there's a **private catalog**, the servers run isolated, and a **secrets engine keeps credentials away from the server** itself. These are hard, enforced controls — not advice — and next we drop into the hands-on portion where we sandbox a real agent.
+
+---
+
+<!-- chrome: false -->
+
+<img src="assets/slide-34b.webp" alt="Workshop - labs progress: Lab 1 Prerequisite & Setup, Lab 2 Autonomy requires guardrails, and Lab 3 AI Governance Stack are all marked complete with green checks; only Lab 4 remains." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+
+Note: Third checkmark — **Lab 3, the AI Governance Stack, is complete**. We've walked all six layers, seen Docker Hardened Images collapse the CVE count, met Gordon, and been introduced to Docker Sandboxes. So the *stack* is on the table. Only **Lab 4 - Securing the Agentic Stack** remains, and that's the biggest hands-on payoff: we take everything conceptual and actually enforce it - sandboxing the coding agent, isolating credentials, locking down network and filesystem, protecting MCP, and reading the audit trail. Let's roll up our sleeves and sandbox a real agent.
 
 ---
 
@@ -594,23 +618,15 @@ Note: Step six closes the loop: the **Audit Logs** page, where you **review ever
 
 <img src="assets/slide-75.webp" alt="References slide listing the link https://www.docker.com/products/ai-governance/" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
 
-Note: Everything we just walked through — the console, the policies, the audit logs — is documented at the one link on this slide: **docker.com/products/ai-governance**. I'd encourage you to bookmark it, because it's the canonical starting point when you go to set this up for your own organization. If you take one URL away from today, this is the one. Now, before we wrap, I want to briefly show how you extend the sandbox itself with new capabilities.
+Note: Everything we just walked through — the console, the policies, the audit logs — is documented at the one link on this slide: **docker.com/products/ai-governance**. I'd encourage you to bookmark it, because it's the canonical starting point when you go to set this up for your own organization. If you take one URL away from today, this is the one. And with the audit trail covered, **Lab 4 is complete** — so let's look at the finished board.
 
 ---
 
 <!-- chrome: false -->
 
-<img src="assets/slide-76.webp" alt="Section title slide: Adding Tools to Sandbox, with the Docker logo on a dark navy wave background" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+<img src="assets/slide-76.webp" alt="Workshop - labs progress: all four labs complete - Lab 1 Prerequisite & Setup, Lab 2 Autonomy requires guardrails, Lab 3 AI Governance Stack, and Lab 4 Securing the Agentic Stack - each marked with a green check." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
 
-Note: This short section answers a question I always get at this point: "The governance is great, but how do I actually add real capabilities to the sandbox?" So far we've focused on constraining the agent; now let's look at extending it — giving it memory, models, and tools — while keeping every one of those guardrails intact. The theme here is that you can make an agent genuinely powerful without punching holes in the isolation. Let me show you the architecture with a concrete example.
-
----
-
-<!-- chrome: false -->
-
-<img src="assets/slide-77.webp" alt="Adding tools to Sandbox via sbx kits — architecture diagram of a host machine containing a microVM-based sandbox with an Agent/Claude container, a Mem0 memory layer (Kind: mixin), a Qdrant local store, and Docker Model Runner on the host running ai/gemma3 (LLM) and ai/mxbai-embed-large (embedder), with network policies and secrets feeding a Network Policy box before any External Systems; note: the memory loop stays on the host, nothing crosses to external systems" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
-
-Note: This diagram shows how you add tools with **sbx kits**, and I love it because it proves governance and capability aren't in tension. Inside the **microVM-based sandbox**, the agent gets a real **Mem0 memory layer** — delivered as a "mixin" kit — backed by a **Qdrant local store**, and it uses **Docker Model Runner on the host** to run `gemma3` for the LLM and `mxbai-embed-large` for embeddings. Here's the crucial part, in blue on the right: **the entire memory loop stays on the host — nothing crosses to external systems**, and any traffic that would leave still passes through the **Network Policy** box we configured earlier, fed by our secrets and network rules. So the agent gets persistent memory and local models, a genuinely capable setup, yet the data never leaves your machine and every egress is still governed. That's the whole thesis of this workshop in one picture, which is the perfect note to close on.
+Note: And there's the finished board — **all four labs complete**. Look at what you actually did today: got into the environment, felt why autonomy needs guardrails, walked the full AI Governance Stack, and then hands-on **secured the agentic stack** end to end — sandboxing, credential isolation, network and filesystem policy, MCP protection, and the audit trail. That's not a demo you watched; it's a system you drove yourself. Every checkmark on this board is an enforced control you can take back to your own environment. Let me leave you with the one line that sums it all up.
 
 ---
 
