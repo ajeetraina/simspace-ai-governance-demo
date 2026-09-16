@@ -51,8 +51,16 @@ from now on, contained instead of loose on your host:
 sbx run shell ~/workdemo
 ```
 
-Inside, the agent sees only the folder you handed it - not your `~/.ssh`, `~/.aws`, or
-`~/.docker`. Leave the sandbox:
+Now you're **inside** the microVM. Try to read the secrets the agent could freely read
+on your host a moment ago:
+
+```bash
+ls ~/.ssh ~/.aws
+```
+
+`No such file or directory` - your `~/.ssh` and `~/.aws` (and `~/.docker`) were never
+mounted, so they don't exist in here. The agent sees only the workspace you handed it.
+Leave the sandbox:
 
 ```bash
 exit
