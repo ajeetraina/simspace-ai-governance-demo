@@ -8,6 +8,7 @@ description: >
 
 catalog:
   icon: security
+  description: "Measure the agent-built image with Docker Scout, swap in a Docker Hardened Image, and watch 47 CVEs collapse to near zero."
   tags: ["docker scout", "dhi", "hardened images", "cve", "supply chain", "sbom"]
   estimatedMinutes: 25
   order: 3

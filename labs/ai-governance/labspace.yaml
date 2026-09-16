@@ -10,6 +10,7 @@ description: >
 # more labs. labs.json is GENERATED from this block - never edit labs.json by hand.
 catalog:
   icon: shield_lock
+  description: "Harden what an AI agent builds and contain what it can touch: network, filesystem, credentials, and MCP. Fully simulated."
   tags:
     ["ai governance", "supply chain", "dhi", "docker scout", "sandbox", "mcp"]
   estimatedMinutes: 75

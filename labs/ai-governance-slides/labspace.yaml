@@ -12,6 +12,7 @@ description: "The workshop deck: why agents need guardrails, enforced-not-advise
 # from this block - never edit labs.json by hand.
 catalog:
   icon: slideshow
+  description: "The workshop deck: why AI agents need enforced guardrails, and Docker's layered governance stack. Watch, then do the labs."
   order: 1
   tags: ["ai governance", "sandbox", "mcp", "slides", "start here"]
   estimatedMinutes: 60

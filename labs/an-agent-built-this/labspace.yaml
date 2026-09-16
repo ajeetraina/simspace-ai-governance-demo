@@ -11,6 +11,7 @@ description: >
 # GENERATED from this block - never edit labs.json by hand.
 catalog:
   icon: smart_toy
+  description: "An AI agent containerises a real Node.js app well - then, ungoverned on your host, reads your .env, keys, and code. Fully simulated."
   tags:
     ["ai agents", "coding agents", "gordon", "docker ai", "credentials", "lethal trifecta"]
   estimatedMinutes: 30
