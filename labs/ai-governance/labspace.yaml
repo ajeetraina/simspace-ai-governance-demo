@@ -145,15 +145,12 @@ files:
     app.listen(3000, () => console.log("Listening on port 3000"));
 
 # Ordered instruction pages (markdown), rendered in the left-hand panel.
-# Arc: a short DHI recap on the shared Product Catalog example (harden what the
-# agent BUILDS) → then contain what it can TOUCH (policy → network → filesystem →
+# Arc: contain what the agent can TOUCH (policy → network → filesystem →
 # credential), then the tools it CALLS (DHI MCP → MCP governance), tied together by
-# the capstone and audit. The full supply-chain half (build/scan/CI) lives in the
-# "An Agent Built This" and "Find the Vulnerabilities" labs; pages 01-04 of the
-# original arc are intentionally skipped here.
+# the capstone and audit. The build half - the Product Catalog, its fat node:20
+# base, and the one-line Docker Hardened Images fix - is covered in the "An Agent
+# Built This" and "Find the Vulnerabilities" labs and is not repeated here.
 sections:
-  - title: "Start Here: Product Catalog & Hardened Images"
-    contentPath: recap-dhi.md
   - title: "Contain the Agent: The Policy Model"
     contentPath: 05-policy-model.md
   - title: Network Enforcement

@@ -20,9 +20,10 @@ every sandbox. Each request is evaluated **deny → allow → default-deny**.*
 > them off** - that's the whole point.
 
 > [!NOTE]
-> The opener hardened what the agent *builds*. From here on we contain what it can
-> *touch* - network, filesystem, credentials, and MCP tools - and the policy model
-> below is the foundation for all of it.
+> The earlier labs hardened what the agent *builds* (the Product Catalog on a
+> Docker Hardened Image). This lab contains what it can *touch* - network,
+> filesystem, credentials, and MCP tools - and the policy model below is the
+> foundation for all of it.
 
 ## Set your organization
 
