@@ -152,6 +152,65 @@ scenarios:
       promptContains: [containeri]
     then: *agent_build
 
+  # `docker images` after the build - the fat node:20 base is right there in the
+  # SIZE column. Best-practice layering trimmed the app, not the ~1.6GB base.
+  - id: docker-images-built
+    when:
+      command: [docker, images]
+      state: { catalog.containerised: true }
+    then:
+      output:
+        - "REPOSITORY          TAG       IMAGE ID       CREATED          SIZE"
+        - "product-catalog     latest    a1b2c3d4e5f6   2 minutes ago    1.62GB"
+        - "node                20        8f693eaa7e0a   3 weeks ago      1.59GB"
+
+  # Same table via `docker image ls`.
+  - id: docker-image-ls-built
+    when:
+      command: [docker, image, ls]
+      state: { catalog.containerised: true }
+    then:
+      output:
+        - "REPOSITORY          TAG       IMAGE ID       CREATED          SIZE"
+        - "product-catalog     latest    a1b2c3d4e5f6   2 minutes ago    1.62GB"
+        - "node                20        8f693eaa7e0a   3 weeks ago      1.59GB"
+
+  # Before the agent has built anything, there's nothing to list.
+  - id: docker-images-empty
+    when:
+      command: [docker, images]
+    then:
+      output:
+        - "REPOSITORY          TAG       IMAGE ID       CREATED          SIZE"
+
+  # `docker scout quickview` after the build - the well-formed image is still
+  # vulnerable, and almost every CVE traces to the fat node:20 base. Deliberately
+  # no "Recommended base" line here: measuring the fix is Lab 2's job.
+  - id: docker-scout-quickview-built
+    when:
+      command: [docker, scout, quickview]
+      state: { catalog.containerised: true }
+    then:
+      output:
+        - { text: "    ✓ Image stored for indexing", delay: build }
+        - { text: "    ✓ Indexed 431 packages", delay: scan }
+        - ""
+        - "  Target             │  product-catalog:latest   │    2C    12H    20M    13L"
+        - "    digest           │  6f2a9c3b1d40             │"
+        - "  Base image         │  node:20                  │    2C    11H    18M    11L"
+        - ""
+        - "2 critical and 12 high - almost all from the fat node:20 base, not the app."
+        - "You measure and fix this in Lab 2: Find the Vulnerabilities."
+
+  # Same command before anything is built - nothing to scan yet.
+  - id: docker-scout-quickview-empty
+    when:
+      command: [docker, scout, quickview]
+    then:
+      stderr:
+        - "No image to analyze - build product-catalog:latest first (Step 1)."
+      exit: 1
+
   # ===========================================================================
   # Section 4 - The same agent, ungoverned on the host.
   # No sandbox, no policy. Asked an innocent question, it reads everything:

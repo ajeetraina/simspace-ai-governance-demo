@@ -35,7 +35,36 @@ Multi-stage, non-root, tidy - a genuinely well-formed build.
 ## Step 3 - Best practices ≠ a clean image
 
 It still starts `FROM node:20` - the convenient, fat base. Best-practice
-*layering* can't undo what the *base* drags in.
+*layering* can't undo what the *base* drags in. Weigh it for yourself:
+
+```bash
+docker images
+```
+
+The well-built `product-catalog:latest` still tips the scale at ~1.6GB - right
+alongside the `node:20` base it inherited. Multi-stage builds and a
+`.dockerignore` trimmed *your* app layers; they did nothing about the **1.59GB**
+the base dragged in.
+
+## Step 4 - It builds, it runs - and it's vulnerable
+
+Size is only the visible half. Ask Docker Scout what that base *dragged in*:
+
+```bash
+docker scout quickview
+```
+
+```text no-run-button
+  Target             │  product-catalog:latest   │    2C    12H    20M    13L
+    digest           │  6f2a9c3b1d40             │
+  Base image         │  node:20                  │    2C    11H    18M    11L
+```
+
+**2 critical and 12 high** CVEs in a "best-practice" image - and nearly all of
+them trace to `node:20`, not a single line of the app. It containerises cleanly,
+the service runs, and it still ships vulnerable. *(SBOMs, VEX and provenance are
+how you'd prove and triage this - out of scope here; what matters now is simply
+that the vulnerabilities are there.)*
 
 > [!IMPORTANT]
 > An agent applying every best practice still ships whatever CVEs live in the

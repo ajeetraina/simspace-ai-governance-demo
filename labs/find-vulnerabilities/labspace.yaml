@@ -10,7 +10,7 @@ catalog:
   icon: security
   tags: ["docker scout", "dhi", "hardened images", "cve", "supply chain", "sbom"]
   estimatedMinutes: 25
-  order: 2
+  order: 3
 
 simulator: simulator.yaml
 

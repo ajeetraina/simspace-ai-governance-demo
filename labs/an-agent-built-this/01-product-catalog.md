@@ -1,12 +1,25 @@
 # Meet the Product Catalog
 
 ```text no-run-button
-   Application ──▶ PostgreSQL · AWS S3 · Kafka ──▶ Inventory service
-   (Node + Express, source only - no Dockerfile)
+   Client ── REST / JSON ──▶ ┌──────────────────────────────────────────┐
+                             │        Product Catalog API               │
+                             │   Node.js + Express  ·  source only,      │
+                             │           no Dockerfile                  │
+                             └──────────────────────────────────────────┘
+                                                │
+        ┌──────────────┬───────────────┬───────┴───────┬───────────────┐
+        ▼              ▼               ▼               ▼               ▼
+   PostgreSQL       AWS S3          Kafka           Stripe        Inventory
+   catalog DB    images/assets    event stream     payments      service
+                                                    (LIVE)        (internal)
+   ───────────────────── secrets, plaintext in .env ─────────────────────
+   DB password     AWS keys           —          Stripe key     internal API key
 ```
 
-*A real service: a Node.js + Express API on Postgres, S3, and Kafka. It ships
-source only - no Dockerfile - which is exactly what teams now hand to an agent.*
+*A real service: a Node.js + Express API backed by Postgres, S3, and Kafka, with
+live Stripe payments and an internal inventory service. It ships source only - no
+Dockerfile - which is exactly what teams now hand to an agent. Notice how every
+dependency below the API maps to a credential sitting in `.env`.*
 
 ## Step 1 - Clone it
 
