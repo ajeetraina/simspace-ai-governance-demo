@@ -183,6 +183,34 @@ scenarios:
       output:
         - "REPOSITORY          TAG       IMAGE ID       CREATED          SIZE"
 
+  # `docker scout quickview` after the build - the well-formed image is still
+  # vulnerable, and almost every CVE traces to the fat node:20 base. Deliberately
+  # no "Recommended base" line here: measuring the fix is Lab 2's job.
+  - id: docker-scout-quickview-built
+    when:
+      command: [docker, scout, quickview]
+      state: { catalog.containerised: true }
+    then:
+      output:
+        - { text: "    ✓ Image stored for indexing", delay: build }
+        - { text: "    ✓ Indexed 431 packages", delay: scan }
+        - ""
+        - "  Target             │  product-catalog:latest   │    2C    12H    20M    13L"
+        - "    digest           │  6f2a9c3b1d40             │"
+        - "  Base image         │  node:20                  │    2C    11H    18M    11L"
+        - ""
+        - "2 critical and 12 high - almost all from the fat node:20 base, not the app."
+        - "You measure and fix this in Lab 2: Find the Vulnerabilities."
+
+  # Same command before anything is built - nothing to scan yet.
+  - id: docker-scout-quickview-empty
+    when:
+      command: [docker, scout, quickview]
+    then:
+      stderr:
+        - "No image to analyze - build product-catalog:latest first (Step 1)."
+      exit: 1
+
   # ===========================================================================
   # Section 4 - The same agent, ungoverned on the host.
   # No sandbox, no policy. Asked an innocent question, it reads everything:
