@@ -116,5 +116,5 @@ never exists in the sandbox. No race, no partial read. The agent that freely rea
 your secrets in Step 1 now **can't even mount them**.
 
 That's three of the agent's boundaries contained - credentials, network, and
-filesystem. One remains: the **tools** the agent can call. Next: **DHI MCP** and
-**MCP Governance** - putting every tool server behind one governed gateway.
+filesystem. One remains: the **tools** the agent can call. Next: **MCP Governance** -
+putting every tool server behind one governed, signed, policy-gated gateway.

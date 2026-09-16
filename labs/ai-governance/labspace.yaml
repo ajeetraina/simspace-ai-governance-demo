@@ -147,7 +147,7 @@ files:
 
 # Ordered instruction pages (markdown), rendered in the left-hand panel.
 # Arc: set up Docker Sandboxes, then contain what the agent can TOUCH (policy →
-# credential → network → filesystem), then the tools it CALLS (DHI MCP → MCP
+# credential → network → filesystem), then the tools it CALLS (MCP
 # governance), tied together by the capstone and audit. The build half - the Product
 # Catalog, its fat node:20 base, and the one-line Docker Hardened Images fix - is
 # covered in the "An Agent Built This" and "Find the Vulnerabilities" labs and is
@@ -163,8 +163,6 @@ sections:
     contentPath: 06-network-demo.md
   - title: "Lab 5: Filesystem Isolation"
     contentPath: 07-filesystem-isolation.md
-  - title: "DHI MCP: Hardened Servers"
-    contentPath: dhi-mcp.md
   - title: MCP Governance
     contentPath: 09-mcp.md
   - title: Putting It All Together
