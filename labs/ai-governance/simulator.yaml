@@ -480,9 +480,9 @@ scenarios:
       args: { --json: { any: true } }
     then:
       output:
-        - '{"sandbox":"scratch","host":"api.anthropic.com","decision":"allow","rule":"allow AI services","count":42}'
-        - '{"sandbox":"scratch","host":"paste.ee","decision":"deny","rule":"deny exfiltration","count":1}'
-        - '{"sandbox":"scratch","host":"example.com","decision":"deny","rule":"default-deny","count":1}'
+        - '{"sandbox":"catalog","host":"api.anthropic.com","decision":"allow","rule":"allow AI services","count":42}'
+        - '{"sandbox":"catalog","host":"paste.ee","decision":"deny","rule":"deny exfiltration","count":1}'
+        - '{"sandbox":"catalog","host":"example.com","decision":"deny","rule":"default-deny","count":1}'
 
   - id: sbx-policy-log
     when:
@@ -491,12 +491,12 @@ scenarios:
       output:
         - "Blocked requests:"
         - "SANDBOX   TYPE     HOST          PROXY        RULE               REASON        COUNT"
-        - "scratch   network  paste.ee      transparent  deny exfiltration  explicit      1"
-        - "scratch   network  example.com   transparent  default-deny       default-deny  1"
+        - "catalog   network  paste.ee      transparent  deny exfiltration  explicit      1"
+        - "catalog   network  example.com   transparent  default-deny       default-deny  1"
         - ""
         - "Allowed requests:"
         - "SANDBOX   TYPE     HOST                 PROXY    RULE               COUNT"
-        - "scratch   network  api.anthropic.com    forward  allow AI services  42"
+        - "catalog   network  api.anthropic.com    forward  allow AI services  42"
 
   # ===========================================================================
   # Governance API path: the setup-policies.sh helper
