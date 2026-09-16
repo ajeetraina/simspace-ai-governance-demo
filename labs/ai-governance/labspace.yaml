@@ -35,7 +35,76 @@ files:
 
     Files you'll meet:
       workdemo/                                 the one directory sandboxes are allowed to mount
+      setup-policies.sh                         wraps the Governance API to provision network + filesystem policies
       product-catalog-demo-showcase/            a real Node.js app the agent containerises (Product Catalog section)
+  setup-policies.sh: |
+    #!/usr/bin/env bash
+    #
+    # setup-policies.sh - provision Docker AI Governance policies via the API.
+    #
+    # A thin wrapper over the same Governance API calls shown in the
+    # Observability section: authenticate once, then create each policy and
+    # POST its allow/deny rules. Both "front doors" (Admin Console and this
+    # script) write to the SAME source of truth for the org.
+    #
+    #   bash setup-policies.sh            # provision network + filesystem policies
+    #   bash setup-policies.sh network    # provision just the network policy
+    #
+    # Config via env (override as needed):
+    #   ORG          Docker org slug            (default: your-org)
+    #   DOCKER_USER  Docker username
+    #   DOCKER_PAT   Personal Access Token (used as the password to log in)
+    set -euo pipefail
+
+    ORG="${ORG:-your-org}"
+    API="https://hub.docker.com/v2"
+    SCOPE="${1:-all}"   # "network" | "all"
+
+    # --- 1. Authenticate -> bearer token -------------------------------------
+    echo "Authenticating to the Docker AI Governance API..."
+    TOKEN=$(curl -sS -X POST "$API/users/login" \
+      -H "Content-Type: application/json" \
+      -d "{\"username\":\"${DOCKER_USER:?set DOCKER_USER}\",\"password\":\"${DOCKER_PAT:?set DOCKER_PAT}\"}" \
+      | python3 -c 'import sys,json; print(json.load(sys.stdin)["token"])')
+    auth=(-H "Authorization: Bearer $TOKEN")
+
+    # --- helpers -------------------------------------------------------------
+    # create_policy <name> -> echoes the new policy id
+    create_policy() {
+      curl -sS -X POST "$API/orgs/$ORG/governance/policies" "${auth[@]}" \
+        -H "Content-Type: application/json" \
+        -d "{\"name\":\"$1\",\"type\":\"allowlist_v0\"}" \
+        | python3 -c 'import sys,json; print(json.load(sys.stdin)["id"])'
+    }
+
+    # add_rule <policy_id> <json-rule-body>
+    add_rule() {
+      curl -sS -X POST "$API/orgs/$ORG/governance/policies/$1/rules" "${auth[@]}" \
+        -H "Content-Type: application/json" -d "$2" >/dev/null
+    }
+
+    # --- 2. Network policy ---------------------------------------------------
+    echo "Creating policy 'Labspace AI Governance - network'"
+    NET_ID=$(create_policy "Labspace AI Governance - network")
+    add_rule "$NET_ID" '{"name":"allow AI services","action":"allow","hosts":["api.anthropic.com:443","api.openai.com:443","*.googleapis.com:443"]}'
+    add_rule "$NET_ID" '{"name":"allow Docker services","action":"allow","hosts":["*.docker.com:443","*.docker.io:443","dhi.io:443"]}'
+    add_rule "$NET_ID" '{"name":"deny exfiltration","action":"deny","hosts":["paste.ee","pastebin.com","hooks.slack.com"]}'
+    echo "  + allow AI services   (allow)"
+    echo "  + allow Docker services (allow)"
+    echo "  + deny exfiltration   (deny)"
+
+    # --- 3. Filesystem policy (skipped when arg is "network") ----------------
+    if [ "$SCOPE" != "network" ]; then
+      echo "Creating policy 'Labspace AI Governance - filesystem'"
+      FS_ID=$(create_policy "Labspace AI Governance - filesystem")
+      add_rule "$FS_ID" '{"name":"allow workdemo","action":"allow","access":"read+write","paths":["~/workdemo"]}'
+      add_rule "$FS_ID" '{"name":"deny credentials","action":"deny","access":"read+write","paths":["~/.aws","~/.ssh","~/.docker/config.json"]}'
+      echo "  + allow workdemo      (allow, read+write)"
+      echo "  + deny credentials    (deny, read+write)"
+    fi
+
+    echo
+    echo "Done. Policies applied to $ORG. Run \`sbx policy reset\` to sync locally."
   product-catalog-demo-showcase/package.json: |
     {
       "name": "container-supported-development",
