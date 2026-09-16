@@ -152,6 +152,37 @@ scenarios:
       promptContains: [containeri]
     then: *agent_build
 
+  # `docker images` after the build - the fat node:20 base is right there in the
+  # SIZE column. Best-practice layering trimmed the app, not the ~1.6GB base.
+  - id: docker-images-built
+    when:
+      command: [docker, images]
+      state: { catalog.containerised: true }
+    then:
+      output:
+        - "REPOSITORY          TAG       IMAGE ID       CREATED          SIZE"
+        - "product-catalog     latest    a1b2c3d4e5f6   2 minutes ago    1.62GB"
+        - "node                20        8f693eaa7e0a   3 weeks ago      1.59GB"
+
+  # Same table via `docker image ls`.
+  - id: docker-image-ls-built
+    when:
+      command: [docker, image, ls]
+      state: { catalog.containerised: true }
+    then:
+      output:
+        - "REPOSITORY          TAG       IMAGE ID       CREATED          SIZE"
+        - "product-catalog     latest    a1b2c3d4e5f6   2 minutes ago    1.62GB"
+        - "node                20        8f693eaa7e0a   3 weeks ago      1.59GB"
+
+  # Before the agent has built anything, there's nothing to list.
+  - id: docker-images-empty
+    when:
+      command: [docker, images]
+    then:
+      output:
+        - "REPOSITORY          TAG       IMAGE ID       CREATED          SIZE"
+
   # ===========================================================================
   # Section 4 - The same agent, ungoverned on the host.
   # No sandbox, no policy. Asked an innocent question, it reads everything:

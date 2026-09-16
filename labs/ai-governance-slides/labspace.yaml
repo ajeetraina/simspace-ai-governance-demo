@@ -7,9 +7,9 @@ kind: slides
 title: "Docker AI Governance - Slides"
 description: "The workshop deck: why agents need guardrails, enforced-not-advised governance, the layered Docker AI stack, sandboxing the agent, protecting MCP, and audit at scale. Watch the talk, then do the lab."
 
-# Landing-page card. `order: 1` puts the deck ahead of the labs, so it reads as
-# "watch the workshop, then do the labs". labs.json is GENERATED from this block -
-# never edit labs.json by hand.
+# Landing-page card. `order: 1` puts the deck first (top-left), ahead of the labs,
+# so it reads as "watch the workshop, then do the labs". labs.json is GENERATED
+# from this block - never edit labs.json by hand.
 catalog:
   icon: slideshow
   order: 1

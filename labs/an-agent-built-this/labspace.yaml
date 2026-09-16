@@ -14,7 +14,7 @@ catalog:
   tags:
     ["ai agents", "coding agents", "gordon", "docker ai", "credentials", "lethal trifecta"]
   estimatedMinutes: 30
-  order: 1
+  order: 2
 
 # Command behaviour lives in simulator.yaml (relative to this file).
 simulator: simulator.yaml

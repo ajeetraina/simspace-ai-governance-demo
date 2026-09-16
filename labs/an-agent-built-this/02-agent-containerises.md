@@ -35,7 +35,16 @@ Multi-stage, non-root, tidy - a genuinely well-formed build.
 ## Step 3 - Best practices ≠ a clean image
 
 It still starts `FROM node:20` - the convenient, fat base. Best-practice
-*layering* can't undo what the *base* drags in.
+*layering* can't undo what the *base* drags in. Weigh it for yourself:
+
+```bash
+docker images
+```
+
+The well-built `product-catalog:latest` still tips the scale at ~1.6GB - right
+alongside the `node:20` base it inherited. Multi-stage builds and a
+`.dockerignore` trimmed *your* app layers; they did nothing about the **1.59GB**
+the base dragged in.
 
 > [!IMPORTANT]
 > An agent applying every best practice still ships whatever CVEs live in the
