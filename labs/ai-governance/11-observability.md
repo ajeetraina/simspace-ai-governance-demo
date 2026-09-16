@@ -35,8 +35,14 @@ sbx policy log --json
 
 The traffic log tells you *what* and *why*, but not *who*. Docker AI Governance also writes
 a sealed audit event per decision - **with the signed-in user, org, and session on every
-record** - so the Product Catalog agent's blocked attempt to leak its **Stripe key**
-reaches your SIEM looking like this:
+record**. Read the Product Catalog agent's audit trail:
+
+```bash
+sbx audit log
+```
+
+Its blocked attempt to leak the catalog's **Stripe key** to `paste.ee` shows up as one
+sealed record, stamped with the user, org, and session:
 
 ```json no-run-button
 {

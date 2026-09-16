@@ -498,6 +498,24 @@ scenarios:
         - "SANDBOX   TYPE     HOST                 PROXY    RULE               COUNT"
         - "catalog   network  api.anthropic.com    forward  allow AI services  42"
 
+  # The user-attributed audit trail (auditkit). One sealed JSONL record per
+  # decision, with the signed-in user, org, and session - what ships to a SIEM.
+  - id: sbx-audit-log
+    when:
+      command: [sbx, audit, log]
+    then:
+      output:
+        - "{"
+        - '  "timestamp": "2026-05-28T19:15:00Z",'
+        - '  "decision": "AUDIT_DECISION_DENY",'
+        - '  "username": "jordandoe",'
+        - '  "org_name": "{{ state.org }}",'
+        - '  "sandbox": "product-catalog",'
+        - '  "resource_id": "paste.ee:443",'
+        - '  "deny_reason": ["deny exfiltration"],'
+        - '  "action_type": "network_egress"'
+        - "}"
+
   # ===========================================================================
   # Governance API path: the setup-policies.sh helper
   # ===========================================================================
