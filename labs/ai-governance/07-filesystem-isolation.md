@@ -1,4 +1,4 @@
-# Filesystem Isolation
+# Lab 5: Filesystem Isolation
 
 ```text no-run-button
    Host (no sandbox)                    Sandbox (microVM)
@@ -115,5 +115,6 @@ Filesystem rules are checked **at creation**, not at read time - the denied moun
 never exists in the sandbox. No race, no partial read. The agent that freely read
 your secrets in Step 1 now **can't even mount them**.
 
-Next: the agent still needs *some* credentials to do its job - how does it use them
-without ever holding them? **Credential Isolation**.
+That's three of the agent's boundaries contained - credentials, network, and
+filesystem. One remains: the **tools** the agent can call. Next: **DHI MCP** and
+**MCP Governance** - putting every tool server behind one governed gateway.

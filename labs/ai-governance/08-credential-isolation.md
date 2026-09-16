@@ -1,4 +1,4 @@
-# Credential Isolation
+# Lab 3: Credential Isolation
 
 ```text no-run-button
    MicroVM (sandbox)                     Host - sbx proxy                Service
@@ -18,8 +18,8 @@ injects it per request.*
 Back to the **Product Catalog**. To containerise and run it, the coding agent needs
 **real credentials**: its own **Anthropic key** to think, plus the app's own secrets -
 the **AWS keys** for the product-image S3 bucket and the token for the **Inventory
-service** the catalog calls. The filesystem section already stopped the agent from
-*reading* secrets off disk. But these it legitimately needs to *use*. So:
+service** the catalog calls. You don't want the agent *reading* secrets off disk - but
+these it legitimately needs to *use*. So:
 
 > *If the agent can't read my keys, how does it authenticate to the services the
 > catalog actually depends on?*
@@ -115,15 +115,10 @@ AWS keys for the product-image S3 bucket - stored on the host, injected on the w
 | Inventory / S3 secret | Host, keyed to host + env | Placeholder; substituted per request |
 | SSH key | Host SSH agent | Can sign, can't read the key |
 
-## The three sandbox protections together
-
-- **Network egress** - the agent can't reach unapproved destinations
-- **Filesystem access** - the agent can't mount unapproved paths
-- **Credential isolation** - the agent can't see the secrets it uses
+## Credentials, contained
 
 Even for the calls the catalog agent is *supposed* to make, a prompt injection can't
 exfiltrate a usable key - because there is no usable key inside the box.
 
-That's three of the agent's four boundaries contained - network, filesystem, and
-credentials. One remains: the **tools** the agent can call. Next: **DHI MCP** and
-**MCP Governance** - putting every tool server behind one governed gateway.
+That closes the **credential** boundary: the agent uses your keys without ever seeing
+them. Next, contain what the agent can *reach* on the wire - **Network Enforcement**.

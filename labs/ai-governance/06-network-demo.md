@@ -1,4 +1,4 @@
-# Network Enforcement Demo
+# Lab 4: Network Enforcement
 
 ```text no-run-button
    sandbox curl ×3 ──▶ sbx proxy (org network policy) ──▶
@@ -121,4 +121,4 @@ exit
    allowed the permitted one
 4. **No developer override** - local rules went inactive in favour of org rules
 
-Next: the filesystem half of the same model.
+Next: the filesystem half of the same model - **Filesystem Isolation**.

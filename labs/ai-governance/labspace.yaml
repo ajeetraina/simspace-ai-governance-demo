@@ -146,20 +146,23 @@ files:
     app.listen(3000, () => console.log("Listening on port 3000"));
 
 # Ordered instruction pages (markdown), rendered in the left-hand panel.
-# Arc: contain what the agent can TOUCH (policy → network → filesystem →
-# credential), then the tools it CALLS (DHI MCP → MCP governance), tied together by
-# the capstone and audit. The build half - the Product Catalog, its fat node:20
-# base, and the one-line Docker Hardened Images fix - is covered in the "An Agent
-# Built This" and "Find the Vulnerabilities" labs and is not repeated here.
+# Arc: set up Docker Sandboxes, then contain what the agent can TOUCH (policy →
+# credential → network → filesystem), then the tools it CALLS (DHI MCP → MCP
+# governance), tied together by the capstone and audit. The build half - the Product
+# Catalog, its fat node:20 base, and the one-line Docker Hardened Images fix - is
+# covered in the "An Agent Built This" and "Find the Vulnerabilities" labs and is
+# not repeated here.
 sections:
-  - title: "Contain the Agent: The Policy Model"
+  - title: "Lab 1: Setting up Docker Sandboxes (sbx)"
+    contentPath: sbx-setup.md
+  - title: "Lab 2: The Policy Model"
     contentPath: 05-policy-model.md
-  - title: Network Enforcement
-    contentPath: 06-network-demo.md
-  - title: Filesystem Isolation
-    contentPath: 07-filesystem-isolation.md
-  - title: Credential Isolation
+  - title: "Lab 3: Credential Isolation"
     contentPath: 08-credential-isolation.md
+  - title: "Lab 4: Network Enforcement"
+    contentPath: 06-network-demo.md
+  - title: "Lab 5: Filesystem Isolation"
+    contentPath: 07-filesystem-isolation.md
   - title: "DHI MCP: Hardened Servers"
     contentPath: dhi-mcp.md
   - title: MCP Governance
@@ -170,6 +173,6 @@ sections:
     contentPath: 11-observability.md
 
 # $$name$$ in markdown is replaced with these values. `org` is overridden by the
-# :variableDefinition prompt in "Contain the Agent: The Policy Model".
+# :variableDefinition prompt in "Lab 1: Setting up Docker Sandboxes (sbx)".
 variables:
   org: your-org

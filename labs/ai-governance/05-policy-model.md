@@ -1,4 +1,4 @@
-# The Policy Model
+# Lab 2: The Policy Model
 
 ```text no-run-button
    Source of truth              Sync                 Enforcement
@@ -21,31 +21,12 @@ every sandbox. Each request is evaluated **deny → allow → default-deny**.*
 
 > [!NOTE]
 > The earlier labs hardened what the agent *builds* (the Product Catalog on a
-> Docker Hardened Image). This lab contains what it can *touch* - network,
-> filesystem, credentials, and MCP tools - and the policy model below is the
-> foundation for all of it.
+> Docker Hardened Image), and Lab 1 put the agent inside a sandbox. This lab and
+> the next few contain what it can *touch* - credentials, network, filesystem, and
+> MCP tools - and the policy model below is the foundation for all of it.
 
-## Set your organization
-
-Most commands and links below substitute `$$org$$` for your Docker Hub org. Set it
-once here:
-
-:variableDefinition[org]{prompt="Which Docker Hub organization will you use?"}
-
-By default an AI agent runs with your **full blast radius** - your filesystem, your
-secrets, your network. To contain it, you run the agent inside **`sbx` (Docker
-Sandboxes)** - an isolated microVM - and let **org policy** decide what that sandbox
-may touch. First, meet the tool and log in so policy syncs:
-
-```bash
-sbx version
-```
-
-```bash
-sbx login --org $$org$$
-```
-
-Now the model behind what you'll enforce in the next sections.
+You set your org and logged in during **Lab 1**, so org policy is already synced to
+the local `sbx` daemon. Now the model behind what you'll enforce in the next sections.
 
 ## Where policies live
 
@@ -127,11 +108,11 @@ you'll find three toggles -
 They start **on**. Flip one **off**, then re-run the relevant command and watch
 enforcement change - e.g. turn *AI Governance* off and run `sbx policy ls` (the
 `managed by $$org$$` header disappears), or turn *deny exfiltration* off and re-run
-the `paste.ee` curl in the next section (it returns `200` instead of `403`). Toggle
-them back on to restore the governed posture.
+the `paste.ee` curl in the **Network Enforcement** lab (it returns `200` instead of
+`403`). Toggle them back on to restore the governed posture.
 
 > [!TIP]
 > The toggles are the fastest way to *feel* default-deny: with governance off,
 > the very same commands that were blocked now sail through.
 
-Now let's prove it works end-to-end - starting with **Network Enforcement**.
+Now let's start containing the agent - beginning with **Credential Isolation**.
