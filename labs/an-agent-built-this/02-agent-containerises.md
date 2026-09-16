@@ -41,10 +41,9 @@ It still starts `FROM node:20` - the convenient, fat base. Best-practice
 docker images
 ```
 
-The well-built `product-catalog:latest` still tips the scale at ~1.6GB - right
-alongside the `node:20` base it inherited. Multi-stage builds and a
-`.dockerignore` trimmed *your* app layers; they did nothing about the **1.59GB**
-the base dragged in.
+The `node:20` base the agent pulled is **1.59GB** on its own. Multi-stage builds
+and a `.dockerignore` trimmed *your* app layers; they do nothing about what the
+*base* itself drags in.
 
 ## Step 4 - It builds, it runs - and it's vulnerable
 
