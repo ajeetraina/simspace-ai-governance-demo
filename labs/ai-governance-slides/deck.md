@@ -184,17 +184,45 @@ Note: So let me introduce the **AI Governance Stack**, Docker's answer to that "
 
 <!-- chrome: false -->
 
-<img src="assets/slide-22b.webp" alt="Workshop - labs progress: Lab 1 Prerequisite & Setup and Lab 2 Autonomy requires guardrails are both marked complete with green checks; Labs 3 and 4 still ahead." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;gap:1.6rem;padding:2.6rem 4.2rem 2.2rem;background:#0a1a33;color:#e8ecf7;font-family:ui-sans-serif,system-ui,sans-serif;box-sizing:border-box;">
+  <h2 style="margin:0;font-size:2.7rem;line-height:1.2;font-weight:800;max-width:56ch;">
+    <span style="color:#2496ed;">AI Governance:</span>
+    <span style="color:#ffffff;"> one console to govern every AI agent across your organisation.</span>
+  </h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1.5rem;flex:1;min-height:0;">
+    <div style="background:#12294f;border:1px solid #1d63ed;border-radius:16px;padding:1.5rem 1.9rem;display:flex;flex-direction:column;justify-content:center;">
+      <h3 style="margin:0;font-size:2.05rem;font-weight:800;color:#ffffff;">How agents execute</h3>
+      <p style="margin:.5rem 0 0;font-size:1.2rem;line-height:1.38;color:#b8cbec;">Pinned inside an isolated sandbox, never loose on the developer's host.</p>
+    </div>
+    <div style="background:#12294f;border:1px solid #1d63ed;border-radius:16px;padding:1.5rem 1.9rem;display:flex;flex-direction:column;justify-content:center;">
+      <h3 style="margin:0;font-size:2.05rem;font-weight:800;color:#ffffff;">What they reach on the network</h3>
+      <p style="margin:.5rem 0 0;font-size:1.2rem;line-height:1.38;color:#b8cbec;">Only the endpoints you allow. Every other destination is denied.</p>
+    </div>
+    <div style="background:#12294f;border:1px solid #1d63ed;border-radius:16px;padding:1.5rem 1.9rem;display:flex;flex-direction:column;justify-content:center;">
+      <h3 style="margin:0;font-size:2.05rem;font-weight:800;color:#ffffff;">Which credentials they can use</h3>
+      <p style="margin:.5rem 0 0;font-size:1.2rem;line-height:1.38;color:#b8cbec;">Brokered in at runtime, so the real keys never enter the agent.</p>
+    </div>
+    <div style="background:#12294f;border:1px solid #1d63ed;border-radius:16px;padding:1.5rem 1.9rem;display:flex;flex-direction:column;justify-content:center;">
+      <h3 style="margin:0;font-size:2.05rem;font-weight:800;color:#ffffff;">Which MCP tools they can call</h3>
+      <p style="margin:.5rem 0 0;font-size:1.2rem;line-height:1.38;color:#b8cbec;">Every tool call routed through one governed gateway, gated by policy.</p>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;height:3rem;flex:none;">
+  <svg viewBox="0 0 24 24" role="img" aria-label="Docker" style="width:54px;height:54px;fill:#2496ed;">
+    <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288z"/>
+  </svg>
+  </div>
+</div>
 
-Note: Second checkmark on the board — **Lab 2 is done**. We've felt the problem: the traditional-versus-agentic workflow, how agents blow up your attack surface, the speed-versus-security tension, and we watched an agent containerise our Product Catalog with no guardrails. So the "why" is settled. From here we shift into **Lab 3 - the AI Governance Stack**, where we stop describing the problem and start building the layered controls that fix it. Let me introduce that stack.
+Note: Here is that single control plane, stated as what it actually governs. **AI Governance is one console to govern every AI agent across your whole organisation.** It comes down to the four cards on screen. **How agents execute:** every agent is pinned inside an isolated sandbox, never loose on the developer's host. **What they can reach on the network:** only the endpoints you allow, every other destination denied, so a prompt-injected agent can't phone home. **Which credentials they can use:** brokered in at runtime, so the real keys never actually land inside the agent. And **which MCP tools they can call:** every tool call routed through one governed gateway and gated by policy. Set those four centrally and every developer runs agents safely, wherever they work. Now let me show the layers behind it.
 
 ---
 
 <!-- chrome: false -->
 
-<img src="assets/slide-23.webp" alt="'AI Governance: One console to govern AI Agents and Claws across your entire organisation.' Bulleted benefits: one engine with three layers of control (sandbox, network, MCP), complete audit trails, centralized credential management across MCP servers, automated policy enforcement, governance for every stakeholder, and runtime PII redaction." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+<img src="assets/slide-22b.webp" alt="Workshop - labs progress: Lab 1 Prerequisite & Setup and Lab 2 Autonomy requires guardrails are both marked complete with green checks; Labs 3 and 4 still ahead." width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
 
-Note: This is the promise stated plainly: **one console to govern AI agents across your entire organisation**. One engine gives you **three layers of control**, sandbox, network, and MCP, so you're governing isolation, egress, and tool access from the same place. Around that you get the things a security team actually asks for: **complete audit trails, centralized credential management across every MCP server, automated policy enforcement, and runtime PII redaction** before data ever reaches an agent or a log. And crucially, **policy propagates automatically** from security leaders down to every developer, so nobody has to remember to be safe. Now let me break that single engine into its layers so you can see how it's built.
+Note: Second checkmark on the board — **Lab 2 is done**. We've felt the problem: the traditional-versus-agentic workflow, how agents blow up your attack surface, the speed-versus-security tension, and we watched an agent containerise our Product Catalog with no guardrails. So the "why" is settled. From here we shift into **Lab 3 - the AI Governance Stack**, where we stop describing the problem and start building the layered controls that fix it. Let me introduce that stack.
 
 ---
 
