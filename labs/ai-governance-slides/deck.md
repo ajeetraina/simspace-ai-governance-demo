@@ -64,6 +64,22 @@ Note: This is section one: **Autonomy requires guardrails**. The whole premise h
 
 <!-- chrome: false -->
 
+<img src="assets/slide-07a.webp" alt="Docker Platform — build, run, and share software securely; a stack spanning Local + Cloud, with Build software (fast + secure), Run software (safely), and Share software (versioned + governed), all sitting on Security + governance" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+
+Note: Start with what you already know Docker for: the **Docker Platform**. Its whole job is to help you **build, run, and share software — securely**. It spans **local and cloud**, so the same workflow follows your code from a laptop to production. You **build** software fast and secure, you **run** it safely, and you **share** it versioned and governed. And underneath all of it sits **security and governance** — not a bolt-on, but the foundation the whole platform stands on. Hold that shape in your head, because the next slide shows how it maps, one-to-one, onto the world of AI agents.
+
+---
+
+<!-- chrome: false -->
+
+<img src="assets/slide-07b.webp" alt="Docker AI Platform — build, run, and share AI agents securely; the same Local + Cloud stack with Build agents (fast + secure), Run agents (safely), and Share agents (versioned + governed), all sitting on Security + governance" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
+
+Note: Now swap one word and the whole picture holds: the **Docker AI Platform**. The mission is identical — **build, run, and share AI agents, securely** — across the same **local and cloud** surface. You **build** agents fast and secure, you **run** them safely, and you **share** them versioned and governed, all on the same **security and governance** foundation. This is the through-line of the workshop: agents are just another kind of software you need to build, run, and share under control. And to see why that control matters, let's look at what these agents are already doing — because they're doing real work.
+
+---
+
+<!-- chrome: false -->
+
 <img src="assets/slide-08.webp" alt="AI Agents are here and doing real work — three columns: Engineering ships PRs, Marketing pulls CRM data and launches campaigns, Finance reconciles reports and queries systems live" width="1600" height="900" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;object-fit:fill" />
 
 Note: Let's be clear-eyed: **agents are already doing real work** across the business, not just answering questions. In **engineering**, they read whole codebases and ship pull requests with no human in the loop. In **marketing**, they pull CRM data and launch campaigns end to end, moving from research to send. And in **finance**, they reconcile reports and query live systems, closing the loop between ledger, dashboard, and decision. The common thread is that each of these agents has real access to real systems and takes real actions. That's the value — and, as we'll see next, that's exactly where the danger begins.
