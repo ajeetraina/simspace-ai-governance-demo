@@ -169,6 +169,8 @@ sections:
     contentPath: 10-capstone.md
   - title: Observability & Audit
     contentPath: 11-observability.md
+  - title: From Audit Log to Alarm (Datadog)
+    contentPath: 12-datadog-alarm.md
 
 # $$name$$ in markdown is replaced with these values. `org` is overridden by the
 # :variableDefinition prompt in "Lab 1: Setting up Docker Sandboxes (sbx)".
